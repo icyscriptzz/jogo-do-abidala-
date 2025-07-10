@@ -19,45 +19,55 @@ function girarPainel() {
   }
 
   const cells = Array.from(grid.children);
-  const valores = [];
+  const valores = Array(9).fill('');
 
-  // Gira emojis
-  cells.forEach((cell, i) => {
-    setTimeout(() => {
-      const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-      cell.textContent = emoji;
-      valores[i] = emoji;
-      cell.style.transform = 'rotateY(180deg)';
-      setTimeout(() => cell.style.transform = '', 300);
-    }, i * 50); // efeito de rotação animada
-  });
+  // Animação estilo slot machine
+  const colunas = [[0,3,6], [1,4,7], [2,5,8]];
 
-  setTimeout(() => {
-    // Verifica trinca
-    const linhas = [
-      [0,1,2], [3,4,5], [6,7,8],
-      [0,3,6], [1,4,7], [2,5,8],
-      [0,4,8], [2,4,6]
-    ];
+  colunas.forEach((indices, colIndex) => {
+    let count = 0;
+    const interval = setInterval(() => {
+      indices.forEach(i => {
+        const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+        cells[i].textContent = emoji;
+        valores[i] = emoji;
+      });
+      count++;
 
-    let ganhou = false;
-    for (let linha of linhas) {
-      const [a, b, c] = linha;
-      if (valores[a] === valores[b] && valores[b] === valores[c]) {
-        ganhou = true;
-        break;
+      if (count > 10 + colIndex * 3) {
+        clearInterval(interval);
+        if (colIndex === 2) {
+          verificarTrinca(valores);
+        }
       }
-    }
+    }, 50 + colIndex * 50);
+  });
+}
 
-    if (ganhou) {
-      const premio = Math.floor(Math.random() * 16) + 5;
-      dinheiro += premio;
-      resultadoPainel.textContent = `🎉 Você ganhou R$ ${premio} com a trinca!`;
-    } else {
-      resultadoPainel.textContent = "Nada formado. Tente novamente!";
-      dinheiro -= 1;
-    }
+function verificarTrinca(valores) {
+  const linhas = [
+    [0,1,2], [3,4,5], [6,7,8],
+    [0,3,6], [1,4,7], [2,5,8],
+    [0,4,8], [2,4,6]
+  ];
 
-    dinheiroSpan.textContent = dinheiro;
-  }, 600); // espera a animação terminar
+  let ganhou = false;
+  for (let linha of linhas) {
+    const [a, b, c] = linha;
+    if (valores[a] === valores[b] && valores[b] === valores[c]) {
+      ganhou = true;
+      break;
+    }
+  }
+
+  if (ganhou) {
+    const premio = Math.floor(Math.random() * 16) + 5;
+    dinheiro += premio;
+    resultadoPainel.textContent = `🎉 Você ganhou R$ ${premio} com a trinca!`;
+  } else {
+    resultadoPainel.textContent = "Nada formado. Tente novamente!";
+    dinheiro -= 1;
+  }
+
+  dinheiroSpan.textContent = dinheiro;
 }
