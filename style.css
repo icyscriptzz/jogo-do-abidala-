@@ -1,0 +1,16 @@
+body {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  background-color: #fff7e6;
+  padding: 20px;
+}
+
+#cachorro {
+  width: 150px;
+  margin: 20px;
+}
+
+button {
+  font-size: 20px;
+  padding: 10px 20px;
+}
