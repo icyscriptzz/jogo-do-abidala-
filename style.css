@@ -3,8 +3,12 @@
 body {
   text-align: center;
   font-family: 'Fredoka One', cursive;
-  background-color: #fff7e6;
+  background-image: url('https://iili.io/FESscYJ.md.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   padding: 20px;
+  min-height: 100vh;
 }
 
 #cachorro {
