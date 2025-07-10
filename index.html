@@ -4,21 +4,149 @@
   <meta charset="UTF-8">
   <title>Minigame do Cachorrinho</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background-color: #fff7e6;
+      padding: 20px;
+    }
+
+    #cachorro {
+      width: 150px;
+      margin: 20px;
+    }
+
+    button {
+      font-size: 20px;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(3, 60px);
+      grid-gap: 10px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+
+    .grid-item {
+      font-size: 40px;
+      background-color: #fff;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s;
+    }
+  </style>
 </head>
 <body>
-<div id="painel">
-  <div id="grid">
-    <!-- 9 células serão preenchidas via JavaScript -->
-  </div>
-  <button onclick="girarPainel()">Girar</button>
-  <p id="resultadoPainel"></p>
-</div>
   <h1>Jogo do Abidala 🐶</h1>
-  <img src="https://iili.io/FEe4oAX.md.png" alt="FE4oAX.md.png" id="cachorro">
+
+  <!-- Imagem do personagem -->
+  <img src="https://iili.io/FEe4oAX.md.png" alt="Cachorrinho" id="cachorro">
+
   <p>Dinheiro: R$ <span id="dinheiro">20</span></p>
+
   <button onclick="apostar()">Apostar</button>
   <p id="mensagem"></p>
 
-  <script src="script.js"></script>
+  <div id="painel">
+    <h2>Painel da Trinca</h2>
+    <div id="grid"></div>
+    <button onclick="girarPainel()">Girar</button>
+    <p id="resultadoPainel"></p>
+  </div>
+
+  <script>
+    let dinheiro = 20;
+    const mensagem = document.getElementById('mensagem');
+    const dinheiroSpan = document.getElementById('dinheiro');
+    const resultadoPainel = document.getElementById('resultadoPainel');
+    const grid = document.getElementById('grid');
+    const emojis = ['🍊', '🐶', '🔔', '💰', '🎁', '🍀'];
+
+    // Inicializa a grade
+    for (let i = 0; i < 9; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'grid-item';
+      cell.textContent = '❓';
+      grid.appendChild(cell);
+    }
+
+    // Aposta estilo tigrinho
+    function apostar() {
+      if (dinheiro <= 0) {
+        mensagem.textContent = "Você ficou sem dinheiro!";
+        return;
+      }
+
+      const resultado = Math.random();
+      if (resultado < 0.3) {
+        const ganho = 5;
+        mensagem.textContent = `Você ganhou R$ ${ganho}!`;
+        dinheiro += ganho;
+      } else {
+        const perda = 2;
+        mensagem.textContent = `Você perdeu R$ ${perda}.`;
+        dinheiro -= perda;
+      }
+
+      dinheiroSpan.textContent = dinheiro;
+    }
+
+    // Painel 3x3 de emojis
+    function girarPainel() {
+      if (dinheiro <= 0) {
+        resultadoPainel.textContent = "Sem dinheiro para girar o painel!";
+        return;
+      }
+
+      const cells = Array.from(grid.children);
+      const valores = [];
+
+      // Gira emojis
+      cells.forEach(cell => {
+        const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+        cell.textContent = emoji;
+        valores.push(emoji);
+        cell.style.transform = 'rotateY(180deg)';
+        setTimeout(() => cell.style.transform = '', 300);
+      });
+
+      // Verifica trinca
+      const linhas = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+      ];
+
+      let ganhou = false;
+      for (let linha of linhas) {
+        const [a, b, c] = linha;
+        if (valores[a] === valores[b] && valores[b] === valores[c]) {
+          ganhou = true;
+          break;
+        }
+      }
+
+      if (ganhou) {
+        const premio = Math.floor(Math.random() * 16) + 5;
+        dinheiro += premio;
+        resultadoPainel.textContent = `🎉 Você ganhou R$ ${premio} com a trinca!`;
+      } else {
+        resultadoPainel.textContent = "Nada formado. Tente novamente!";
+        dinheiro -= 1; // custo do giro
+      }
+
+      dinheiroSpan.textContent = dinheiro;
+    }
+  </script>
 </body>
 </html>
