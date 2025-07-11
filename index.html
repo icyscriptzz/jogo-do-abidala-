@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <title>🍀 Jogo do Abidala 🐶</title>
 
+  <!-- Metadados para embed -->
   <meta property="og:title" content="🍀 Jogo do Abidala 🐶">
   <meta property="og:description" content="Gire o painel, combine os emojis e se divirta com o minigame do cachorrinho!">
   <meta property="og:image" content="https://iili.io/FESscYJ.md.png">
-  <meta property="og:url" content="https://seu-usuario.github.io/seu-repo">
+  <meta property="og:url" content="https://seulink.github.io/jogo-do-abidala">
   <meta property="og:type" content="website">
 
   <meta name="twitter:card" content="summary_large_image">
@@ -26,12 +27,27 @@
   <button onclick="girarPainel()">Apostar</button>
   <p id="resultadoPainel"></p>
 
-  <a href="saque.html"><button style="background-color:#ffc107;color:black;">Sacar</button></a>
+  <!-- Botão de saque com link dinâmico -->
+  <a id="botaoSaque"><button style="background-color:#ffc107;color:black;">Sacar</button></a>
 
   <div id="painel">
     <div id="grid"></div>
   </div>
 
   <script src="script.js"></script>
+
+  <!-- Script para atualizar link de saque -->
+  <script>
+    function atualizarLinkSaque() {
+      const dinheiroAtual = document.getElementById('dinheiro').textContent;
+      document.getElementById('botaoSaque').href = `saque.html?dinheiro=${dinheiroAtual}`;
+    }
+
+    document.querySelector("button[onclick='girarPainel()']").addEventListener("click", () => {
+      setTimeout(atualizarLinkSaque, 100);
+    });
+
+    atualizarLinkSaque(); // carregar inicialmente
+  </script>
 </body>
 </html>
