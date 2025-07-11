@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 
 body {
@@ -22,7 +23,7 @@ button {
   padding: 10px 20px;
   margin: 10px;
   cursor: pointer;
-  background-color: #28a745; /* verde */
+  background-color: #28a745;
   color: white;
   border: 2px solid black;
   border-radius: 12px;
@@ -30,7 +31,7 @@ button {
 }
 
 button:hover {
-  background-color: #218838; /* verde escuro */
+  background-color: #218838;
   transform: scale(1.05);
 }
 

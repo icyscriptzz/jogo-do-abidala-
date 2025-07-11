@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Saque do Jogo do Abidala</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    body {
+      text-align: center;
+      font-family: 'Fredoka One', cursive;
+      background-color: #fff7e6;
+      padding: 50px;
+    }
+
+    input[type="text"] {
+      font-size: 18px;
+      padding: 10px;
+      width: 300px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: 2px solid black;
+      background-color: #ffc107;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #e0a800;
+    }
+  </style>
+</head>
+<body>
+  <h1>Saque do Jogo do Abidala</h1>
+  <p>Insira sua chave PIX para sacar seu prêmio:</p>
+  <input type="text" placeholder="Sua chave PIX aqui">
+  <br>
+  <button onclick="mostrarTroll()">OK</button>
+
+  <script>
+    function mostrarTroll() {
+      alert("❌ O valor foi taxado em 100% para manter o jogo funcionando.\n\n✅ Tecnicamente, você recebeu o que ganhou 😅");
+    }
+  </script>
+</body>
+</html>

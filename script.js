@@ -1,15 +1,21 @@
+
 let dinheiro = 20;
 const dinheiroSpan = document.getElementById('dinheiro');
 const resultadoPainel = document.getElementById('resultadoPainel');
 const grid = document.getElementById('grid');
 const emojis = ['🍊', '🐶', '🔔', '💰', '🎁', '🍀'];
 
-// Inicializa a grade
-for (let i = 0; i < 9; i++) {
-  const cell = document.createElement('div');
-  cell.className = 'grid-item';
-  cell.textContent = '❓';
-  grid.appendChild(cell);
+grid.innerHTML = '';
+for (let row = 0; row < 3; row++) {
+  for (let col = 0; col < 3; col++) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'grid-item';
+    const inner = document.createElement('div');
+    inner.className = 'roller';
+    inner.innerHTML = emojis.map(e => `<div>${e}</div>`).join('');
+    wrapper.appendChild(inner);
+    grid.appendChild(wrapper);
+  }
 }
 
 function girarPainel() {
@@ -18,30 +24,27 @@ function girarPainel() {
     return;
   }
 
-  const cells = Array.from(grid.children);
-  const valores = Array(9).fill('');
+  const rollers = Array.from(document.querySelectorAll('.roller'));
+  const valores = [];
 
-  // Animação estilo slot machine
-  const colunas = [[0,3,6], [1,4,7], [2,5,8]];
-
-  colunas.forEach((indices, colIndex) => {
-    let count = 0;
-    const interval = setInterval(() => {
-      indices.forEach(i => {
-        const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-        cells[i].textContent = emoji;
-        valores[i] = emoji;
-      });
-      count++;
-
-      if (count > 10 + colIndex * 3) {
-        clearInterval(interval);
-        if (colIndex === 2) {
-          verificarTrinca(valores);
-        }
+  const delays = [0, 200, 400];
+  [0, 1, 2].forEach((coluna, cIndex) => {
+    setTimeout(() => {
+      for (let linha = 0; linha < 3; linha++) {
+        const index = linha * 3 + coluna;
+        const roller = rollers[index];
+        const sorteado = emojis[Math.floor(Math.random() * emojis.length)];
+        roller.innerHTML = emojis.map(e => `<div>${e}</div>`).join('') + `<div>${sorteado}</div>`;
+        roller.style.transition = 'transform 0.8s ease-out';
+        roller.style.transform = `translateY(-${emojis.length * 40}px)`;
+        valores[index] = sorteado;
       }
-    }, 50 + colIndex * 50);
+    }, delays[cIndex]);
   });
+
+  setTimeout(() => {
+    verificarTrinca(valores);
+  }, 1200);
 }
 
 function verificarTrinca(valores) {
