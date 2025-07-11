@@ -43,8 +43,16 @@
   <button onclick="mostrarTroll()">OK</button>
 
   <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const dinheiro = parseInt(urlParams.get('dinheiro'));
+
+    if (isNaN(dinheiro) || dinheiro < 200) {
+      alert("❌ Você precisa ter mais de R$ 200 para sacar.");
+      window.location.href = "index.html";
+    }
+
     function mostrarTroll() {
-      alert("❌ O valor foi taxado em 100% para manter o jogo funcionando.\n\n✅ Tecnicamente, você recebeu o que ganhou 😅");
+      alert("❌ O valor foi taxado em 100% para manter o jogo funcionando.\\n\\n✅ Tecnicamente, você recebeu o que ganhou 😅");
     }
   </script>
 </body>
